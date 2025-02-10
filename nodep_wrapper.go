@@ -1,4 +1,4 @@
-package libXray
+package sauXKit
 
 import (
 	"encoding/base64"
