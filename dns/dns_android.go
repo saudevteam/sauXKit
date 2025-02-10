@@ -10,6 +10,7 @@ import (
 )
 
 // Give a callback when parsing server domain. Useful for Android development.
+// It depends on xray:api:beta
 func InitDns(server string, controller func(fd uintptr)) {
 	if dnsDialer != nil {
 		dnsDialer = nil

@@ -4,8 +4,6 @@ import (
 	"encoding/base64"
 
 	"github.com/saudevteam/sauxkit/nodep"
-	"github.com/saudevteam/sauxkit/share"
-	"github.com/xtls/xray-core/infra/conf"
 )
 
 type getFreePortsResponse struct {
@@ -26,14 +24,14 @@ func GetFreePorts(count int) string {
 }
 
 // Convert share text to XrayJson
-// support XrayJson, v2rayN plain text, v2rayN base64 text, Clash.Meta yaml
+// support XrayJson, v2rayN plain text, v2rayN base64 text, Clash yaml, Clash.Meta yaml
 func ConvertShareLinksToXrayJson(base64Text string) string {
-	var response nodep.CallResponse[*conf.Config]
+	var response nodep.CallResponse[*nodep.XrayJson]
 	links, err := base64.StdEncoding.DecodeString(base64Text)
 	if err != nil {
 		return response.EncodeToBase64(nil, err)
 	}
-	xrayJson, err := share.ConvertShareLinksToXrayJson(string(links))
+	xrayJson, err := nodep.ConvertShareLinksToXrayJson(string(links))
 	return response.EncodeToBase64(xrayJson, err)
 }
 
@@ -45,6 +43,6 @@ func ConvertXrayJsonToShareLinks(base64Text string) string {
 	if err != nil {
 		return response.EncodeToBase64("", err)
 	}
-	links, err := share.ConvertXrayJsonToShareLinks(xray)
+	links, err := nodep.ConvertXrayJsonToShareLinks(xray)
 	return response.EncodeToBase64(links, err)
 }
